@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.module.mapper.CategoryMapper">
+
+    <!-- 新增表category信息 -->
+    <insert id="insert" parameterType="com.example.module.entity.Category" useGeneratedKeys="true"
+            keyProperty="category.id">
+        insert category (
+        <if test="category.type != null and category.type != ''">type</if>
+        <if test="category.createTime != null and category.createTime != ''">,create_time</if>
+        <if test="category.updateTime != null and category.updateTime != ''">,update_time</if>
+        ,is_deleted
+        ) values (
+        <if test="category.type != null and category.type != ''">#{category.type}</if>
+        <if test="category.createTime != null and category.createTime != ''">,#{category.createTime}</if>
+        <if test="category.updateTime != null and category.updateTime != ''">,#{category.updateTime}</if>
+        ,#{category.isDeleted}
+        )
+    </insert>
+
+    <!-- 根据主键id更新表category信息 -->
+    <update id="update" parameterType="com.example.module.entity.Category" useGeneratedKeys="true"
+            keyProperty="category.id">
+        update category set
+        <if test="category.id != null and category.id != ''">id=#{category.id}</if>
+        <if test="category.type != null and category.type != ''">,type=#{category.type}</if>
+        <if test="category.createTime != null and category.createTime != ''">,create_time=#{category.createTime}</if>
+        <if test="category.updateTime != null and category.updateTime != ''">,update_time=#{category.updateTime}</if>
+        <if test="category.isDeleted != null and category.isDeleted != ''">,is_deleted=#{category.isDeleted}</if>
+        where
+        id=#{category.id}
+    </update>
+
+    <select id="getCategoryList" resultType="com.example.module.entity.Category">
+        select *
+        from category
+        where id in (${ids})
+    </select>
+
+</mapper>

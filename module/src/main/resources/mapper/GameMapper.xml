@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.module.mapper.GameMapper">
+    <!--namespace根据自己需要创建的的mapper的路径和名称填写-->
+
+    <!--多了一层@Param，所有参数都要game.xxx-->
+    <insert id="insert" parameterType="com.example.module.entity.Game" useGeneratedKeys="true" keyProperty="game.id">
+        insert
+        game (
+        <if test="game.pictures != null and game.pictures != ''">pictures,</if>
+        <if test="game.title != null and game.title != ''">title,</if>
+        <if test="game.downloadLink != null and game.downloadLink != ''">download_link,</if>
+        <if test="game.createTime != null">create_time,</if>
+        <if test="game.updateTime != null">update_time,</if>
+        <if test="game.categoryId != null">category_id,</if>
+        is_deleted
+        ) values (
+        <if test="game.pictures != null and game.pictures != ''">#{game.pictures},</if>
+        <if test="game.title != null and game.title != ''">#{game.title},</if>
+        <if test="game.downloadLink != null and game.downloadLink != ''">#{game.downloadLink},</if>
+        <if test="game.createTime != null">#{game.createTime},</if>
+        <if test="game.updateTime != null">#{game.updateTime},</if>
+        <if test="game.categoryId != null">#{game.categoryId},</if>
+        #{game.isDeleted}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.example.module.entity.Game" useGeneratedKeys="true" keyProperty="game.id">
+        update game set
+        id = #{game.id}
+        <if test="game.pictures != null and game.pictures != ''">,pictures = #{game.pictures},</if>
+        <if test="game.title != null and game.title != ''">title = #{game.title},</if>
+        <if test="game.downloadLink != null">download_link = #{game.downloadLink},</if>
+        <if test="game.updateTime != null">update_time = #{game.updateTime},</if>
+        <if test="game.categoryId != null">category_id = #{game.categoryId}</if>
+        where id = #{game.id}
+    </update>
+
+    <!--limit不变橙色;如果不传title，不管它反而没问题-->
+    <!--select * from game where is_deleted = 0 and title like "%动作%"
+    or category_id in (select id from category where is_deleted = 0 and type like "%动作%")-->
+    <!--一条sql改两条，即便单条+单条时间大于单纯的一条-->
+    <!--写一个controller测试string buffer或者builder的区别-->
+    <select id="getCategoryIdList" resultType="java.math.BigInteger">
+        select id
+        from category
+        where is_deleted = 0
+          and type like concat('%', #{title}, '%')
+    </select>
+
+    <select id="pagination" resultType="com.example.module.entity.Game">
+        select * from game where is_deleted = 0
+        <if test="title != null and title != ''">
+            and (title like concat('%',#{title},'%')
+            <if test="categoryIdList != null and categoryIdList != ''">
+                or category_id in (${categoryIdList})
+            </if>
+            )
+        </if>
+        limit #{start},#{pageSize}
+    </select>
+
+    <!--自动设置了个resultType="java.lang.Integer"-->
+    <select id="total" resultType="java.lang.Integer">
+        select count(*) from game where is_deleted = 0
+        <if test="title != null and title != ''">
+            and (title like concat('%',#{title},'%')
+            <if test="categoryIdList != null and categoryIdList != ''">
+                or category_id in (${categoryIdList})
+            </if>
+            )
+        </if>
+    </select>
+</mapper>
