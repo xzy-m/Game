@@ -1,13 +1,10 @@
 package ${package.Service};
 
 import ${package.Entity}.${entity};
-import com.example.module.mapper.CategoryMapper;
 import jakarta.annotation.Resource;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
-import java.util.List;
 
 /**
 * <p>
@@ -43,7 +40,8 @@ import java.util.List;
     }
 
     public int delete(BigInteger id){
-    return ${table.mapperName?uncap_first}.delete(123,id);
+    int time = (int) (System.currentTimeMillis() / 1000);
+    return ${table.mapperName?uncap_first}.delete(time,id);
     }
     }
 </#if>

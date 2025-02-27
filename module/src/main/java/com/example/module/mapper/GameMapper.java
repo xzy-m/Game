@@ -39,4 +39,9 @@ public interface GameMapper {
     List<BigInteger> getCategoryIdList(@Param("title") String title);
 
     int total(@Param("title") String title, @Param("categoryIdList") String categoryIdList);
+
+    void batchInsert(@Param("games") List<Game> games);
+
+    @Select("select count(*) from game")
+    int countGames();
 }

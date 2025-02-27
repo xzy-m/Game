@@ -1,6 +1,7 @@
 package com.example.module.mapper;
 
 import com.example.module.entity.Category;
+import com.example.module.entity.Game;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -35,4 +36,13 @@ public interface CategoryMapper {
     int delete(@Param("updateTime") Integer updateTime, @Param("id") BigInteger id);
 
     List<Category> getCategoryList(@Param("ids") String ids);
+
+    List<Category> categoryLevel3AndAbove(@Param("id") Integer id);
+
+    List<Category> getAll();
+
+    @Select("select * from category where parent_id is null and is_deleted = 0")
+    List<Category> getTops();
+
+    List<Game> getGamesByCategoryId(@Param("ids") List<BigInteger> ids);
 }

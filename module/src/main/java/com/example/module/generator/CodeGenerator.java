@@ -42,7 +42,7 @@ public class CodeGenerator {
                                 .pathInfo(Collections.singletonMap(OutputFile.xml, "C:\\Programming\\Java\\Game\\module\\src\\main\\resources\\mapper")) // 设置mapperXml生成路径
                 )
                 .strategyConfig(builder ->
-                        builder.addInclude("category") // 设置需要生成的表名
+                        builder.addInclude("recommend") // 设置需要生成的表名
                                 //.addTablePrefix("t_", "c_") // 设置过滤表前缀
                                 .serviceBuilder().formatServiceFileName("%sService") //去掉名字前的I
                                 .entityBuilder().enableLombok().enableFileOverride()
@@ -57,10 +57,10 @@ public class CodeGenerator {
                             builder.entity("/templates/entity.java")
                                     .mapper("/templates/mapper.java")
                                     //.controller("/templates/controller.java")
-                                    //.service("/templates/service.java")
+                                    .service("/templates/service.java")
                                     .disable(TemplateType.CONTROLLER)
                                     .disable(TemplateType.SERVICE_IMPL)
-                                    .disable(TemplateType.SERVICE)
+                                    //.disable(TemplateType.SERVICE)
                                     .xml("/templates/mapper.xml");
                         }
                 )

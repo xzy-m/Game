@@ -1,5 +1,6 @@
 package com.example.console.controller;
 
+import com.example.module.response.Response;
 import com.example.module.entity.Category;
 import com.example.module.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,26 +31,38 @@ public class CategoryController {
     }
 
     @RequestMapping("/insert")
-    public String insert(@RequestParam("type") String type) {
+    public Response insert(@RequestParam("type") String type,
+                           @RequestParam("parentId") BigInteger parentId) {
         try {
-            return categoryService.insertOrUpdate(null, type) != null ? "新增成功" : "新增失败";
+            String statusCode = categoryService.insertOrUpdate(null, type, parentId) != null ? "1001" : "1003";
+            Response response = new Response(statusCode);
+            return response;
         } catch (Exception e) {
-            return e.getLocalizedMessage();
+            Response response = new Response("1004");
+            return response;
         }
     }
 
     @RequestMapping("/update")
-    public String update(@RequestParam("id") BigInteger id,
-                         @RequestParam("type") String type) {
+    public Response update(@RequestParam("id") BigInteger id,
+                           @RequestParam("type") String type,
+                           @RequestParam("parentId") BigInteger parentId) {
         try {
-            return categoryService.insertOrUpdate(id, type) != null ? "修改成功" : "修改失败";
+            String statusCode = categoryService.insertOrUpdate(id, type, parentId) != null ? "1001" : "1003";
+            Response response = new Response(statusCode);
+            return response;
         } catch (Exception e) {
-            return e.getLocalizedMessage();
+            Response response = new Response("1004");
+            return response;
         }
     }
 
     @RequestMapping("/delete")
-    public String delete(@RequestParam("id") BigInteger id) {
-        return categoryService.delete(id) != 0 ? "删除成功" : "删除失败";
+    public Response delete(@RequestParam("id") BigInteger id) {
+
+        String statusCode = categoryService.delete(id) != 0 ? "1001" : "1003";
+        Response response = new Response(statusCode);
+
+        return response;
     }
 }

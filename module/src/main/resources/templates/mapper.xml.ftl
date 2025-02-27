@@ -13,11 +13,11 @@
                     keyProperty="${entity?uncap_first}.id">
                 insert ${table.name} (
                 <#list table.fields as field>
-                    <if test="${entity?uncap_first}.${field.propertyName} != null and ${entity?uncap_first}.${field.propertyName} != ''"><#if field_index gt 0>,</#if>${field.name}</if>
+                    <if test="${entity?uncap_first}.${field.propertyName} != null and ${entity?uncap_first}.${field.propertyName} != ''"><#if field_index gt 0></#if>${field.name},</if>
                 </#list>
                 ) values (
                 <#list table.fields as field>
-                    <if test="${entity?uncap_first}.${field.propertyName} != null and ${entity?uncap_first}.${field.propertyName} != ''"><#if field_index gt 0>,</#if>${r"#{"}${entity?uncap_first}.${field.propertyName}${r"}"}</if>
+                    <if test="${entity?uncap_first}.${field.propertyName} != null and ${entity?uncap_first}.${field.propertyName} != ''"><#if field_index gt 0></#if>${r"#{"}${entity?uncap_first}.${field.propertyName}${r"}"},</if>
                 </#list>
                 )
             </insert>
@@ -32,7 +32,7 @@
                     keyProperty="${entity?uncap_first}.id">
                 update ${table.name} set
                 <#list table.fields as field>
-                    <if test="${entity?uncap_first}.${field.propertyName} != null and ${entity?uncap_first}.${field.propertyName} != ''"><#if field_index gt 0>,</#if>${field.name}=${r"#{"}${entity?uncap_first}.${field.propertyName}${r"}"}</if>
+                    <if test="${entity?uncap_first}.${field.propertyName} != null and ${entity?uncap_first}.${field.propertyName} != ''"><#if field_index gt 0></#if>${field.name}=${r"#{"}${entity?uncap_first}.${field.propertyName}${r"}"},</if>
                 </#list>
                 where
                 <#list table.fields as field><#if field.keyFlag>${field.name}=${r"#{"}${entity?uncap_first}.${field.propertyName}${r"}"}</#if></#list>

@@ -13,6 +13,8 @@
         <if test="game.createTime != null">create_time,</if>
         <if test="game.updateTime != null">update_time,</if>
         <if test="game.categoryId != null">category_id,</if>
+        <if test="game.detail != null">detail,</if>
+        <if test="game.tags != null and game.tags != ''">tags,</if>
         is_deleted
         ) values (
         <if test="game.pictures != null and game.pictures != ''">#{game.pictures},</if>
@@ -21,8 +23,39 @@
         <if test="game.createTime != null">#{game.createTime},</if>
         <if test="game.updateTime != null">#{game.updateTime},</if>
         <if test="game.categoryId != null">#{game.categoryId},</if>
+        <if test="game.detail != null">#{game.detail},</if>
+        <if test="game.tags != null and game.tags != ''">#{game.tags},</if>
         #{game.isDeleted}
         )
+    </insert>
+
+    <insert id="batchInsert">
+        insert into game (
+        pictures,
+        title,
+        download_link,
+        create_time,
+        update_time,
+        category_id,
+        detail,
+        is_deleted
+        ) values
+        <foreach collection="games" item="game" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="game.pictures != null">#{game.pictures},</if>
+                <if test="game.pictures == null">NULL,</if>
+                <if test="game.title != null">#{game.title},</if>
+                <if test="game.title == null">NULL,</if>
+                <if test="game.downloadLink != null">#{game.downloadLink},</if>
+                <if test="game.downloadLink == null">NULL,</if>
+                #{game.createTime},
+                #{game.updateTime},
+                #{game.categoryId},
+                <if test="game.detail != null">#{game.detail},</if>
+                <if test="game.detail == null">NULL,</if>
+                #{game.isDeleted}
+            </trim>
+        </foreach>
     </insert>
 
     <update id="update" parameterType="com.example.module.entity.Game" useGeneratedKeys="true" keyProperty="game.id">
@@ -32,15 +65,14 @@
         <if test="game.title != null and game.title != ''">title = #{game.title},</if>
         <if test="game.downloadLink != null">download_link = #{game.downloadLink},</if>
         <if test="game.updateTime != null">update_time = #{game.updateTime},</if>
-        <if test="game.categoryId != null">category_id = #{game.categoryId}</if>
+        <if test="game.categoryId != null">category_id = #{game.categoryId},</if>
+        <if test="game.detail != null and game.detail != ''">detail = #{game.detail},</if>
+        <if test="game.tags != null and game.tags != ''">tags = #{game.tags}</if>
         where id = #{game.id}
     </update>
 
-    <!--limit不变橙色;如果不传title，不管它反而没问题-->
     <!--select * from game where is_deleted = 0 and title like "%动作%"
     or category_id in (select id from category where is_deleted = 0 and type like "%动作%")-->
-    <!--一条sql改两条，即便单条+单条时间大于单纯的一条-->
-    <!--写一个controller测试string buffer或者builder的区别-->
     <select id="getCategoryIdList" resultType="java.math.BigInteger">
         select id
         from category

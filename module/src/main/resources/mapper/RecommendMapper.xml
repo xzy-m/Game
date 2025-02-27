@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.module.mapper.RecommendMapper">
+
+            <!-- 新增表recommend信息 -->
+            <insert id="insert" parameterType="com.example.module.entity.Recommend" useGeneratedKeys="true"
+                    keyProperty="recommend.id">
+                insert recommend (
+                <if test="recommend.pictures != null and recommend.pictures != ''">pictures,</if>
+                <if test="recommend.title != null and recommend.title != ''">title,</if>
+                <if test="recommend.downloadLink != null and recommend.downloadLink != ''">download_link,</if>
+                <if test="recommend.createTime != null and recommend.createTime != ''">create_time,</if>
+                <if test="recommend.updateTime != null and recommend.updateTime != ''">update_time,</if>
+                is_deleted
+                ) values (
+                <if test="recommend.pictures != null and recommend.pictures != ''">#{recommend.pictures},</if>
+                <if test="recommend.title != null and recommend.title != ''">#{recommend.title},</if>
+                <if test="recommend.downloadLink != null and recommend.downloadLink != ''">#{recommend.downloadLink},
+                </if>
+                <if test="recommend.createTime != null and recommend.createTime != ''">#{recommend.createTime},</if>
+                <if test="recommend.updateTime != null and recommend.updateTime != ''">#{recommend.updateTime},</if>
+                #{recommend.isDeleted}
+                )
+            </insert>
+
+            <!-- 根据主键id更新表recommend信息 -->
+            <update id="update" parameterType="com.example.module.entity.Recommend" useGeneratedKeys="true"
+                    keyProperty="recommend.id">
+                update recommend set
+                    <if test="recommend.pictures != null and recommend.pictures != ''">pictures=#{recommend.pictures},</if>
+                    <if test="recommend.title != null and recommend.title != ''">title=#{recommend.title},</if>
+                    <if test="recommend.downloadLink != null and recommend.downloadLink != ''">download_link=#{recommend.downloadLink},</if>
+                    <if test="recommend.createTime != null and recommend.createTime != ''">create_time=#{recommend.createTime},</if>
+                    <if test="recommend.updateTime != null and recommend.updateTime != ''">update_time=#{recommend.updateTime},</if>
+                    <if test="recommend.isDeleted != null and recommend.isDeleted != ''">is_deleted=#{recommend.isDeleted},</if>
+                where
+                id=#{recommend.id}
+            </update>
+
+</mapper>

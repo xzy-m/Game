@@ -11,7 +11,7 @@ import java.math.BigInteger;
 @Data
 public class GameListVo {
     private BigInteger gameId;
-    private ImageVO imageVO;
+    private ImageVo imageVO;
     private String title;
     private String type;
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.module.mapper.ChannelMapper">
+
+    <!-- 新增表channel信息 -->
+    <insert id="insert" parameterType="com.example.module.entity.Channel" useGeneratedKeys="true"
+            keyProperty="channel.id">
+        insert channel (
+        <if test="channel.image != null and channel.image != ''">image,</if>
+        <if test="channel.createTime != null and channel.createTime != ''">create_time,</if>
+        <if test="channel.updateTime != null and channel.updateTime != ''">update_time,</if>
+        is_deleted
+        ) values (
+        <if test="channel.image != null and channel.image != ''">#{channel.image},</if>
+        <if test="channel.createTime != null and channel.createTime != ''">#{channel.createTime},</if>
+        <if test="channel.updateTime != null and channel.updateTime != ''">#{channel.updateTime},</if>
+        #{channel.isDeleted}
+        )
+    </insert>
+
+    <!-- 根据主键id更新表channel信息 -->
+    <update id="update" parameterType="com.example.module.entity.Channel" useGeneratedKeys="true"
+            keyProperty="channel.id">
+        update channel set
+        <if test="channel.image != null and channel.image != ''">image=#{channel.image},</if>
+        <if test="channel.createTime != null and channel.createTime != ''">create_time=#{channel.createTime},</if>
+        <if test="channel.updateTime != null and channel.updateTime != ''">update_time=#{channel.updateTime},</if>
+        <if test="channel.isDeleted != null and channel.isDeleted != ''">is_deleted=#{channel.isDeleted},</if>
+        where
+        id=#{channel.id}
+    </update>
+
+</mapper>

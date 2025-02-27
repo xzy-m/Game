@@ -1,5 +1,6 @@
 package com.example.console.controller;
 
+import com.example.module.response.Response;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -11,7 +12,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ConsoleExceptionHandler extends RuntimeException {
 
     @ExceptionHandler(Exception.class)
-    public String unknownConsoleErrorException(Exception consoleException) {
-        return "未知原因，系统异常";
+    public Response unknownConsoleErrorException(Exception consoleException) {
+
+        Response response = new Response("4004");
+
+        return response;
     }
 }

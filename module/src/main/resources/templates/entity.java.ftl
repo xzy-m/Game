@@ -1,10 +1,7 @@
 package ${package.Entity};
 
-<#list table.importPackages as pkg>
-    import ${pkg};
-</#list>
-
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
 * <p>
@@ -14,7 +11,8 @@ import lombok.Data;
 * @author ${author}
 * @since ${date}
 */
-
+@Data
+@Accessors(chain = true)
 public class ${entity} {
 
 <#-- ----------  BEGIN 字段循环遍历  ---------->
