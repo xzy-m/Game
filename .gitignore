@@ -33,6 +33,6 @@ build/
 .vscode/
 
 # Ignore configuration files that may contain sensitive information
-*.properties
-*.yml
-*.yaml
+#*.properties
+#*.yml
+#*.yaml
