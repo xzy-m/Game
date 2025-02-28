@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.module.mapper.ActivityMapper">
+
+            <!-- 新增表activity信息 -->
+            <insert id="insert" parameterType="com.example.module.entity.Activity" useGeneratedKeys="true"
+                    keyProperty="activity.id">
+                insert activity (
+                <if test="activity.image != null and activity.image != ''">image,</if>
+                <if test="activity.title != null and activity.title != ''">title,</if>
+                <if test="activity.createTime != null and activity.createTime != ''">create_time,</if>
+                <if test="activity.updateTime != null and activity.updateTime != ''">update_time,</if>
+                is_deleted
+                ) values (
+                <if test="activity.image != null and activity.image != ''">#{activity.image},</if>
+                <if test="activity.title != null and activity.title != ''">#{activity.title},</if>
+                <if test="activity.createTime != null and activity.createTime != ''">#{activity.createTime},</if>
+                <if test="activity.updateTime != null and activity.updateTime != ''">#{activity.updateTime},</if>
+                #{activity.isDeleted}
+                )
+            </insert>
+
+            <!-- 根据主键id更新表activity信息 -->
+            <update id="update" parameterType="com.example.module.entity.Activity" useGeneratedKeys="true"
+                    keyProperty="activity.id">
+                update activity set
+                    <if test="activity.image != null and activity.image != ''">image=#{activity.image},</if>
+                    <if test="activity.title != null and activity.title != ''">title=#{activity.title},</if>
+                    <if test="activity.createTime != null and activity.createTime != ''">create_time=#{activity.createTime},</if>
+                    <if test="activity.updateTime != null and activity.updateTime != ''">update_time=#{activity.updateTime},</if>
+                    <if test="activity.isDeleted != null and activity.isDeleted != ''">is_deleted=#{activity.isDeleted},</if>
+                where
+                id=#{activity.id}
+            </update>
+
+</mapper>
